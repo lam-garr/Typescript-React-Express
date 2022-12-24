@@ -1,27 +1,20 @@
-import React, { useState, useEffect} from 'react';
-
-interface apiData {
-  message: string | undefined
-}
+import React, { useState } from 'react';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./Home";
 
 function App() {
 
-  const[ data, setdata ] = useState<any>(null);
+  const [ getData, setGetData ] = useState<any>(null);
 
-  useEffect(()=>{
-    async function fetchAPI() {
-      let response = await fetch("/api");
-      console.log(response);
-      const jsonResponse = await response.json();
-      console.log(jsonResponse)
-      setdata(jsonResponse.message);
-    }
-    fetchAPI();
-  },[])
+  const getIndexAPI = async() => {
+    let response = await fetch("/api");
+    const jsonResponse = await response.json();
+    setGetData(jsonResponse.message);
+  }
 
   return (
     <div>
-      {data}
+      <Home clickHandler={async () => { await getIndexAPI()}} data={getData}/>
     </div>
   );
 }
